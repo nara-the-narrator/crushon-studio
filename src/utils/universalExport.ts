@@ -1,6 +1,27 @@
 import type { Character } from '../types/character'
+import { buildIntroductionStudioFragment } from './exportHtml'
 
 const SCHEMA = 'https://nara-narrator.app/schemas/character-export/v1.json'
+
+const MAX_CARD_FIELD = 32000
+
+/**
+ * SillyTavern / PNG card uses `description` for the **main** character block (long-form prompt) and
+ * `personality` for the shorter line — Crushon maps those to **Personality** vs **Introduction**
+ * respectively, so we **swap** relative to plain-English “description” vs “personality”.
+ */
+const PH = {
+  tavernMainFromPersonalityTab:
+    '(No personality text — add content in Nara’s Personality tab.)',
+  scenario: '(No scenario — add content in Nara’s Scenario tab.)',
+  greeting: '(No greeting — add content in Nara’s Greeting tab.)',
+  appearance: '(No appearance — add content in Nara’s Appearance tab.)',
+} as const
+
+function nonEmptyField(value: string, placeholder: string): string {
+  const t = value.trim()
+  return t || placeholder
+}
 
 function escapeXml(s: string): string {
   return s
@@ -19,21 +40,7 @@ export function stripHtml(html: string): string {
   return (d.textContent || d.innerText || '').replace(/\s+/g, ' ').trim()
 }
 
-function combinedDescriptionHtml(c: Character): string {
-  const d = c.description
-  const parts = [
-    d.openingHtml,
-    ...d.sections.map(
-      (s) => `<div><strong>${escapeXml(s.title)}</strong></div>${s.html}`,
-    ),
-  ]
-  return parts.join('\n')
-}
-
-/**
- * Plain text for Crushon “Introduction”: opening + every section (title + body), in order.
- * This is the only field sourced from Introduction studio for Tavern JSON `description`.
- */
+/** Plain text summary of Introduction studio (opening + sections), for search / previews. */
 export function combinedIntroductionPlain(character: Character): string {
   const d = character.description
   const chunks: string[] = []
@@ -49,9 +56,9 @@ export function combinedIntroductionPlain(character: Character): string {
   return chunks.join('\n\n').trim()
 }
 
-const EMPTY_GREETING = `*{{char}} greets you warmly.*
-
-(Write your greeting in the Greeting tab — use {{user}} for the player’s name.)`
+function introductionStudioHtml(character: Character): string {
+  return buildIntroductionStudioFragment(character.description)
+}
 
 /**
  * Portable bundle for chat/roleplay platforms. `compat` maps common field names;
@@ -61,12 +68,16 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
   const { description: desc, crushonCard: cc } = character
 
   const introductionPlain = combinedIntroductionPlain(character)
-  const fullHtml = combinedDescriptionHtml(character)
+  const introductionHtml = introductionStudioHtml(character)
 
   const personalityPlain = cc.personality.trim()
   const scenarioPlain = cc.scenario.trim()
   const greetingPlain = cc.greeting.trim()
   const appearancePlain = cc.appearance.trim()
+
+  /** Tavern `description` = main block = Nara Personality tab; `personality` = Nara Introduction HTML */
+  const tavernDescriptionField = personalityPlain
+  const tavernPersonalityField = introductionHtml
 
   return {
     $schema: SCHEMA,
@@ -105,7 +116,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
           html: s.html,
         })),
         palette: desc.palette,
-        full_document_html: fullHtml,
+        full_document_html: introductionHtml,
         full_plain_text: introductionPlain,
       },
       crushon_card: {
@@ -120,8 +131,8 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
       compat: {
         generic: {
           name: character.name,
-          /** Crushon “Introduction” — entire Introduction studio output. */
-          description: introductionPlain,
+          /** Crushon “Introduction” — inline HTML from Introduction studio (same as Copy HTML). */
+          description: introductionHtml,
           personality: personalityPlain,
           scenario: scenarioPlain,
           first_message: greetingPlain,
@@ -132,7 +143,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         },
         crushon_ai: {
           char_name: character.name,
-          char_introduction: introductionPlain,
+          char_introduction: introductionHtml,
           char_persona: personalityPlain,
           world_scenario: scenarioPlain,
           first_message: greetingPlain,
@@ -143,8 +154,8 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         },
         sillytavern: {
           name: character.name,
-          description: introductionPlain,
-          personality: personalityPlain,
+          description: tavernDescriptionField,
+          personality: tavernPersonalityField,
           scenario: scenarioPlain,
           first_mes: greetingPlain,
           mes_example: '',
@@ -152,8 +163,8 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         },
         chub_ai: {
           title: character.name,
-          description: introductionPlain,
-          personality: personalityPlain,
+          description: tavernDescriptionField,
+          personality: tavernPersonalityField,
           scenario: scenarioPlain,
           first_message: greetingPlain,
           appearance: appearancePlain,
@@ -174,34 +185,46 @@ export function stringifyUniversalExport(character: Character, pretty = true): s
 }
 
 /**
- * Flat JSON matching common **SillyTavern / character-card** imports (Crushon.ai “Create Character”
- * → upload PNG/JSON). `description` is **Introduction** only (Introduction studio). Personality,
- * scenario, greeting (`first_mes`), and appearance come from their dedicated tabs.
+ * Flat Tavern-style JSON for Crushon / SillyTavern importers.
+ *
+ * **SillyTavern field names vs Crushon UI:** ST’s `description` is the large main block (maps to
+ * Crushon **Personality**); ST’s `personality` is the shorter field (maps to Crushon **Introduction**).
+ * Introduction studio HTML therefore goes in **`personality`**, and the Personality tab goes in **`description`**.
+ * Empty slots use short placeholders so parsers that shift on missing keys still align.
  */
 export function buildCrushonTavernImportJson(character: Character): Record<string, unknown> {
   const cc = character.crushonCard
-  const introductionPlain =
-    combinedIntroductionPlain(character) || character.name.trim() || 'Character introduction'
-
-  const personalityPlain = cc.personality.trim()
-  const scenarioPlain = cc.scenario.trim()
-  const greetingPlain = cc.greeting.trim() || EMPTY_GREETING
-  const appearancePlain = cc.appearance.trim()
-
-  const card: Record<string, unknown> = {
-    name: character.name.trim().slice(0, 40) || 'Unnamed',
-    description: introductionPlain.slice(0, 32000),
-    personality: personalityPlain.slice(0, 32000),
-    scenario: scenarioPlain.slice(0, 32000),
-    first_mes: greetingPlain.slice(0, 32000),
-    mes_example: '',
-    creator_notes:
-      'Exported from Nara the Narrator. `description` = Introduction studio; personality, scenario, first_mes, appearance = their tabs.',
-    tags: character.tags.filter(Boolean).slice(0, 9),
+  let introductionHtml = introductionStudioHtml(character).trim()
+  if (!introductionHtml) {
+    introductionHtml = `<p>${escapeXml(character.name.trim() || 'Character')}</p>`
+  }
+  if (introductionHtml.length > MAX_CARD_FIELD) {
+    introductionHtml = introductionHtml.slice(0, MAX_CARD_FIELD)
   }
 
-  if (appearancePlain) {
-    card.appearance = appearancePlain.slice(0, 32000)
+  const personalityTab = cc.personality.trim()
+  const scenarioTab = cc.scenario.trim()
+  const greetingTab = cc.greeting.trim()
+  const appearanceTab = cc.appearance.trim()
+
+  const tavernDescription = nonEmptyField(personalityTab, PH.tavernMainFromPersonalityTab).slice(0, MAX_CARD_FIELD)
+  const tavernPersonality = introductionHtml
+  const scenarioOut = nonEmptyField(scenarioTab, PH.scenario).slice(0, MAX_CARD_FIELD)
+  const firstMesOut = nonEmptyField(greetingTab, PH.greeting).slice(0, MAX_CARD_FIELD)
+  const appearanceOut = nonEmptyField(appearanceTab, PH.appearance).slice(0, MAX_CARD_FIELD)
+
+  /** Key order matches common Tavern v1 exports (name → description → personality → …). */
+  const card: Record<string, unknown> = {
+    name: character.name.trim().slice(0, 40) || 'Unnamed',
+    description: tavernDescription,
+    personality: tavernPersonality,
+    scenario: scenarioOut,
+    first_mes: firstMesOut,
+    mes_example: '',
+    creator_notes:
+      'Nara export: Tavern `personality` = Introduction studio (HTML); Tavern `description` = Personality tab. Placeholders mark empty tabs.',
+    tags: character.tags.filter(Boolean).slice(0, 9),
+    appearance: appearanceOut,
   }
 
   return card

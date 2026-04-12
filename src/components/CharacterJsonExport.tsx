@@ -63,11 +63,12 @@ export function CharacterJsonExport({ character }: { character: Character }) {
         <h3 className="panel-title">JSON export</h3>
         <p className="panel-hint">
           <strong>Crushon.ai</strong> imports a <em>flat</em> Tavern-style JSON. Here,{' '}
-          <code className="inline-code">description</code> is your <strong>Introduction studio</strong> content only
-          (opening + sections as plain text). <code className="inline-code">personality</code>,{' '}
-          <code className="inline-code">scenario</code>, <code className="inline-code">first_mes</code>, and{' '}
-          <code className="inline-code">appearance</code> come from the <strong>Personality</strong>,{' '}
-          <strong>Scenario</strong>, <strong>Greeting</strong>, and <strong>Appearance</strong> tabs. Use the
+          Tavern-style JSON uses <strong>different names</strong> than Crushon: the{' '}
+          <code className="inline-code">personality</code> key holds <strong>Introduction studio</strong> (inline HTML,
+          same as Copy HTML). The <code className="inline-code">description</code> key holds the{' '}
+          <strong>Personality</strong> tab (long-form). Other keys match: <code className="inline-code">scenario</code>,{' '}
+          <code className="inline-code">first_mes</code>, <code className="inline-code">appearance</code>. Empty tabs get
+          placeholders so imports don’t shift fields. Use the
           Crushon row below on <strong>Create Character → Character Photo &amp; File</strong>. The Nara row is the
           full snapshot under <code className="inline-code">extensions.nara</code>.
         </p>
@@ -102,8 +103,8 @@ export function CharacterJsonExport({ character }: { character: Character }) {
         <div className="json-export-block json-export-block-crushon">
           <h4 className="json-export-block-title">Crushon.ai / SillyTavern</h4>
           <p className="panel-hint json-export-block-hint">
-            Tavern-style card: Introduction studio → <code className="inline-code">description</code>; other keys →
-            Personality / Scenario / Greeting / Appearance tabs.
+            Crushon import: Intro → JSON <code className="inline-code">personality</code>; long Personality → JSON{' '}
+            <code className="inline-code">description</code>.
           </p>
           <div className="json-export-actions">
             <button

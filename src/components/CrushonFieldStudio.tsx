@@ -7,7 +7,7 @@ const FIELD_META: Record<
   personality: {
     label: 'Personality',
     crushonLabel: 'Personality',
-    hint: 'Detailed character traits and voice — Crushon long-term memory.',
+    hint: 'Detailed traits and voice — Crushon long-term memory. Tavern JSON stores this under the key description (not personality).',
     rows: 10,
   },
   scenario: {
@@ -57,6 +57,8 @@ export function CrushonFieldStudio({
           Maps to Crushon’s <strong>{meta.crushonLabel}</strong> field and to Tavern JSON{' '}
           {field === 'greeting' ? (
             <code className="inline-code">first_mes</code>
+          ) : field === 'personality' ? (
+            <code className="inline-code">description</code>
           ) : (
             <code className="inline-code">{field}</code>
           )}

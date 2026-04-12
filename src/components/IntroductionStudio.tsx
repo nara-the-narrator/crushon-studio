@@ -151,8 +151,9 @@ export function IntroductionStudio({
         <div className="opening-block">
           <h3 className="panel-title">Opening</h3>
           <p className="panel-hint">
-            Front matter before numbered sections—hook, dedication, or mood. On Crushon, this and every section
-            below are combined into the <strong>Introduction</strong> field (Tavern JSON <code className="inline-code">description</code>). Use{' '}
+            Front matter before numbered sections—hook, dedication, or mood. For Crushon JSON import, this and every
+            section become the <strong>Introduction</strong> card — exported under the Tavern key{' '}
+            <code className="inline-code">personality</code> (same <strong>inline HTML</strong> as Copy HTML). Use{' '}
             <strong>**bold**</strong>, <em>*italic*</em>, blank lines for paragraphs; the preview uses your
             palette.
           </p>
