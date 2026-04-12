@@ -70,6 +70,18 @@ Tags and name from the profile header are included where the export format suppo
 
 ---
 
+## Disclaimer (Crushon.ai)
+
+**Crushon Studio** is an independent project and is **not** affiliated with [Crushon.ai](https://crushon.ai) or its operator (TECHIEPIE LTD). If you use Crushon.ai, you must follow their official policies:
+
+- [Terms of Use](https://crushon.ai/terms-of-service)
+- [Community Guidelines](https://crushon.ai/community-guidelines)
+- [Privacy Policy](https://crushon.ai/privacy-policy)
+
+The Crushon service is intended for users **18+**. You are responsible for your content and for complying with applicable laws and Crushon’s rules when you publish or chat on their platform.
+
+---
+
 ## Repository
 
 **Source:** [github.com/nara-the-narrator/crushon-studio](https://github.com/nara-the-narrator/crushon-studio)
