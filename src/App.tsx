@@ -1,4 +1,5 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
+import { CrushonLegalDisclaimer } from './components/CrushonLegalDisclaimer'
 import { StoragePanel } from './components/StoragePanel'
 import { CharacterPage } from './pages/CharacterPage'
 import { HomePage } from './pages/HomePage'
@@ -18,6 +19,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <main className="app-main">{children}</main>
       <footer className="app-footer">
         <StoragePanel />
+        <CrushonLegalDisclaimer />
       </footer>
     </div>
   )
