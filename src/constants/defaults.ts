@@ -15,7 +15,7 @@ export function createEmptyIntroductionStudio(): IntroductionStudioContent {
         id: newId(),
         title: 'Highlights',
         html: compileSectionBasicToHtml(
-          'Optional blocks for structure—this whole document maps to Crushon **Introduction** only. Use the **Personality**, **Scenario**, **Greeting**, and **Appearance** tabs for those fields.',
+          'Optional blocks for structure—this area is your introduction only. Use the Personality, Scenario, Greeting, and Appearance tabs for those fields.',
         ),
       },
     ],

@@ -1,4 +1,4 @@
-# Nara the Narrator
+# Crushon Studio
 
 Browser-based **character studio** for building roleplay cards: rich introductions, Crushon-aligned fields, hosted assets on Catbox, GIF output, and JSON/HTML export. **All data stays in your browser** (IndexedDB), with optional backup to a local JSON file.
 
@@ -10,7 +10,7 @@ Browser-based **character studio** for building roleplay cards: rich introductio
 |------|----------------|
 | **Introduction studio** | Opening text plus titled sections, palette-driven **live preview**, basic markup, inline images. For **Tavern JSON**, this HTML lives in the **`personality`** key (SillyTavern’s “personality” line maps to Crushon **Introduction**). |
 | **Crushon fields** | **Personality** tab → Tavern **`description`** (main long-form field → Crushon Personality). **Scenario**, **Greeting**, **Appearance** use the same key names in JSON. |
-| **JSON export** | **Nara bundle**: full round-trip with `extensions.nara`. **Crushon / SillyTavern** flat file: swapped `description`/`personality` vs plain English; empty fields get placeholders so imports don’t misalign. |
+| **JSON export** | **Full app bundle**: round-trip with `extensions.crushonStudio`. **Crushon / SillyTavern** flat file: swapped `description`/`personality` vs plain English; empty fields get placeholders so imports don’t misalign. |
 | **HTML export** | Crushon-safe inline-styled fragment (copy from Introduction studio). |
 | **GIF constructor** | Multi-frame GIF with transitions; optional upload to your Catbox album. |
 | **Image library** | Clothes/action images with Catbox URLs; copy **clothes / action tracker** prompts for chat systems. |

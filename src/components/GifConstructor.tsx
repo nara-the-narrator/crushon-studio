@@ -172,7 +172,7 @@ export function GifConstructor({
         try {
           await removeCatboxFilesFromAlbum(userhash, prevAlbum, [prevGif])
         } catch {
-          // ignore
+          void 0 // ignore remove failure
         }
       }
       onUpdate({
@@ -247,8 +247,7 @@ export function GifConstructor({
             GIF preview
           </h2>
           <p className="panel-hint gif-preview-hint">
-            This is the same file you’ll get when saving. Close and tweak timings or transitions, then
-            save.
+            Same file you get when saving. Close to adjust timings or transitions, then save.
           </p>
           <div className="gif-preview-frame">
             <img src={previewUrl} alt="Animated GIF preview" className="gif-preview-img" />
@@ -281,8 +280,8 @@ export function GifConstructor({
       <div className="gif-constructor-intro">
         <h3 className="panel-title">GIF constructor</h3>
         <p className="panel-hint">
-          Stack images in order, set how long each stays visible, then tune transitions. Output is
-          generated in-browser and downloaded as a <code className="inline-code">.gif</code> file.
+          Stack images in order, set how long each stays visible, then tune transitions. Built in your browser and
+          downloaded as a GIF file.
         </p>
       </div>
 
@@ -341,10 +340,14 @@ export function GifConstructor({
         </button>
       </div>
 
+      {!userhash && (
+        <p className="panel-hint">Set your Catbox userhash in the footer to upload the GIF to your album.</p>
+      )}
+
       {character.gifHosted && (
         <div className="gif-hosted-block">
           <p className="panel-hint">
-            Hosted GIF (used in JSON export and shareable links):{' '}
+            Hosted GIF:{' '}
             <a href={character.gifHosted.shortUrl} target="_blank" rel="noreferrer">
               {character.gifHosted.shortUrl}
             </a>
@@ -353,10 +356,6 @@ export function GifConstructor({
             Remove hosted link
           </button>
         </div>
-      )}
-
-      {!userhash && (
-        <p className="panel-hint">Set your Catbox userhash in the footer to upload the GIF to your album.</p>
       )}
 
       {previewModal}

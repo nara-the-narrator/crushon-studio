@@ -1,20 +1,13 @@
+/**
+ * Introduction studio “basic” markup: **bold**, *italic*, markdown images, compiled to HTML for preview/export.
+ */
 import type { ColorPalette } from '../types/character'
 import { imageHtmlFromDataUrl } from './insertImageInHtml'
 
-/** One line for the basic editor / clipboard insert (image embed). */
 export function markdownImageLine(alt: string, imageUrl: string): string {
-  const safeAlt = alt.replace(/[\[\]]/g, '')
+  const safeAlt = alt.replace(/[[\]]/g, '')
   return `![${safeAlt}](${imageUrl})`
 }
-
-/**
- * Editors use a small plain-text format; we compile to the same inline HTML the app has always exported.
- *
- * Format:
- * - Paragraphs separated by a blank line
- * - **bold**, *italic*
- * - Images: ![alt text](url)  (data URLs or https)
- */
 
 function escapeHtmlText(s: string): string {
   return s
@@ -23,7 +16,6 @@ function escapeHtmlText(s: string): string {
     .replace(/>/g, '&gt;')
 }
 
-/** Inline markdown → HTML (escapes text, then applies * and **). */
 export function inlineBasicToHtml(line: string): string {
   let t = escapeHtmlText(line)
   t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
@@ -48,7 +40,6 @@ function imageMarkdownToHtml(alt: string, url: string): string {
   return `<div style="${wrap}"><img src="${url.replace(/"/g, '&quot;')}" alt="${safeAlt}" style="${img}" /></div>`
 }
 
-/** Section body: blank-line paragraphs + `![alt](url)` image lines → stored HTML (unchanged export shape). */
 export function compileSectionBasicToHtml(basic: string): string {
   const blocks = basic.split(/\n\s*\n/)
   const parts: string[] = []
@@ -70,7 +61,6 @@ export function compileSectionBasicToHtml(basic: string): string {
   return parts.join('\n')
 }
 
-/** Opening: same rules; each blank-line block becomes a styled Georgia paragraph or an image. */
 export function compileOpeningBasicToHtml(basic: string, palette: ColorPalette): string {
   const blocks = basic.split(/\n\s*\n/)
   const pStyle = [
@@ -129,7 +119,6 @@ function serializeNode(node: Node): string {
   return serializeChildren(e)
 }
 
-/** Parse stored HTML → basic text for the editor. */
 export function htmlToBasicInput(html: string): string {
   if (!html.trim()) return ''
   if (typeof DOMParser === 'undefined') return html

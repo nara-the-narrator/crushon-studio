@@ -106,7 +106,7 @@ export function StoragePanel() {
           </>
         ) : (
           <span className="storage-panel-hint">
-            Linking a folder file needs Chromium-based browsers (Chrome, Edge, Brave).
+            Linking a JSON file on disk needs a Chromium-based browser (Chrome, Edge, Brave).
           </span>
         )}
       </div>

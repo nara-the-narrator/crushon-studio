@@ -1,4 +1,3 @@
-/** Insert an HTML img snippet at caret in a textarea. */
 export function insertAtCursor(
   el: HTMLTextAreaElement,
   text: string,

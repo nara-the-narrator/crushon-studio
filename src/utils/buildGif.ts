@@ -88,9 +88,7 @@ function transitionSteps(state: GifConstructorState): number {
   return Math.max(2, Math.min(80, raw))
 }
 
-/**
- * Encodes an animated GIF from slide frames + transition settings.
- */
+/** Encodes an animated GIF from slide frames + transition settings (gifenc). */
 export async function encodeGifFromState(
   state: GifConstructorState,
   onProgress?: (p: EncodeGifProgress) => void,

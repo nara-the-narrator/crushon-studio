@@ -31,10 +31,12 @@ export function IntroductionStudio({
   openingBasicRef.current = openingBasic
   const skipOpeningPaletteSync = useRef(true)
 
+  // Keep basic-text state in sync when opening HTML changes from outside (e.g. reset template).
   useEffect(() => {
     setOpeningBasic(htmlToBasicInput(desc.openingHtml))
   }, [desc.openingHtml])
 
+  // Recompile opening HTML when palette text color changes so preview matches.
   useEffect(() => {
     if (skipOpeningPaletteSync.current) {
       skipOpeningPaletteSync.current = false
@@ -151,21 +153,15 @@ export function IntroductionStudio({
         <div className="opening-block">
           <h3 className="panel-title">Opening</h3>
           <p className="panel-hint">
-            Front matter before numbered sections—hook, dedication, or mood. For Crushon JSON import, this and every
-            section become the <strong>Introduction</strong> card — exported under the Tavern key{' '}
-            <code className="inline-code">personality</code> (same <strong>inline HTML</strong> as Copy HTML). Use{' '}
-            <strong>**bold**</strong>, <em>*italic*</em>, blank lines for paragraphs; the preview uses your
-            palette.
+            Text before your sections—hook, mood, or dedication. Use <strong>**bold**</strong>,{' '}
+            <em>*italic*</em>, and blank lines between paragraphs. The preview uses your palette.
           </p>
           <div className="opening-actions">
             <button type="button" className="btn btn-insert-image" onClick={insertOpeningImage}>
               Add image
             </button>
           </div>
-          <p className="section-basic-hint panel-hint">
-            Images: <code className="inline-code">![alt text](image address)</code> (Add image fills this for
-            you).
-          </p>
+          <p className="section-basic-hint panel-hint">Add image inserts a picture line for you.</p>
           <textarea
             ref={openingRef}
             className="section-body-input opening-textarea"
@@ -190,10 +186,9 @@ export function IntroductionStudio({
           </button>
         </div>
         <p className="panel-hint sections-intro-hint">
-          Each section title and body are appended to Crushon <strong>Introduction</strong> in order. Personality,
-          scenario, greeting, and appearance each have their own tab—not here.
+          Sections are added to your introduction in order. Personality, scenario, greeting, and appearance are edited
+          on their own tabs.
         </p>
-
         {desc.sections.map((s, i) => (
           <SectionBlock
             key={s.id}

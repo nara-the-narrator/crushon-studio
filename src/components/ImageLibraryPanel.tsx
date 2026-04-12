@@ -249,10 +249,8 @@ export function ImageLibraryPanel({
       <div className="image-library-intro">
         <h3 className="panel-title">Image library</h3>
         <p className="panel-hint">
-          File uploads go to your Catbox account and are added to this character’s album (API:{' '}
-          <code className="inline-code">fileupload</code>, <code className="inline-code">createalbum</code>,{' '}
-          <code className="inline-code">addtoalbum</code>). Pasting an external URL keeps the link in prompts but does{' '}
-          <em>not</em> add files to your Catbox album.
+          File uploads go to your Catbox account and this character’s album. Pasting a URL keeps the link here but does
+          not upload a file to Catbox.
         </p>
         {albumUrl && (
           <p className="panel-hint">
@@ -274,7 +272,7 @@ export function ImageLibraryPanel({
       <div className="image-library-section">
         <h4 className="image-library-heading">Clothes (tracker lists)</h4>
         <p className="panel-hint">
-          Add images for each wardrobe state. Exported prompt picks a random URL from the matching list.
+          Add images for each wardrobe state. Generated prompts pick a random image from the matching list.
         </p>
         <div className="clothes-grid">
           {CLOTHES_STATES.map((state) => (
@@ -350,9 +348,7 @@ export function ImageLibraryPanel({
 
       <div className="image-library-section">
         <h4 className="image-library-heading">Actions (trigger words)</h4>
-        <p className="panel-hint">
-          One label + one image per row (upload file to your album, or paste an external URL).
-        </p>
+        <p className="panel-hint">One label and one image per action—upload a file or paste a URL.</p>
         <div className="action-add-form">
           <input
             className="field-input"
@@ -399,9 +395,7 @@ export function ImageLibraryPanel({
 
       <div className="image-library-section tracker-export">
         <h4 className="image-library-heading">Crushon tracker exports</h4>
-        <p className="panel-hint">
-          Paste into your character card or scenario. Uses the literal {'{{char}}'} placeholder.
-        </p>
+        <p className="panel-hint">Copy into your character or scenario. Uses the {'{{char}}'} placeholder.</p>
         <div className="tracker-blocks">
           <div className="tracker-block">
             <div className="tracker-block-head">

@@ -12,10 +12,6 @@ export type AlbumUploadResult = {
   catboxAlbumShort: string
 }
 
-/**
- * Upload a file to the user’s Catbox, then attach it to this character’s album
- * (create album on first file, addtoalbum afterward).
- */
 export async function uploadFileToCharacterAlbum(
   character: Character,
   file: File,
@@ -29,7 +25,7 @@ export async function uploadFileToCharacterAlbum(
     const raw = await createAlbum(
       userhash,
       character.name.trim() || 'Character',
-      `Nara — ${character.id}`,
+      `Crushon Studio — ${character.id}`,
       [fileName],
     )
     const parsed = parseAlbumShortFromResponse(raw)

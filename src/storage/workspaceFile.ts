@@ -51,7 +51,7 @@ export async function pickFileToSave(): Promise<FileSystemFileHandle | null> {
   if (!isFileSystemAccessSupported()) return null
   try {
     const handle = await window.showSaveFilePicker({
-      suggestedName: 'nara-characters.json',
+      suggestedName: 'crushon-studio-characters.json',
       types: [
         {
           description: 'JSON',

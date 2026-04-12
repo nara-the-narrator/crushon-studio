@@ -1,11 +1,3 @@
-/**
- * Catbox multipart API: POST https://catbox.moe/user/api.php
- * @see https://catbox.moe/tools.php
- *
- * Authenticated uploads require `userhash` (app stores it in localStorage; optional VITE_CATBOX_USERHASH for dev).
- * Dev server proxies /api/catbox → user/api.php (see vite-plugins/devUploadProxy.ts).
- */
-
 function catboxEndpoint(): string {
   const full = import.meta.env.VITE_CATBOX_PROXY_URL as string | undefined
   if (full) return full.replace(/\/$/, '')
@@ -18,7 +10,6 @@ function shortenEndpoint(): string {
   return '/api/vgd'
 }
 
-/** Resolve userhash: stored value wins over env. */
 export function resolveCatboxUserhash(stored: string): string {
   const fromEnv = (import.meta.env.VITE_CATBOX_USERHASH as string | undefined)?.trim()
   const s = stored.trim()
@@ -47,10 +38,6 @@ function delay(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }
 
-/**
- * Catbox often returns HTTP 412 / “Uploads paused” during rate limits or maintenance.
- * Retry a few times with backoff before surfacing an error.
- */
 async function runWithPausedRetry<T>(fn: () => Promise<T>): Promise<T> {
   let last: unknown
   for (let attempt = 1; attempt <= PAUSED_RETRY_ATTEMPTS; attempt++) {
@@ -110,7 +97,6 @@ export async function uploadFileToCatbox(file: File, userhash: string): Promise<
   return runWithPausedRetry(() => uploadFileToCatboxOnce(file, userhash))
 }
 
-/** Last path segment for files.catbox.moe URLs. */
 export function catboxFileNameFromUrl(catboxUrl: string): string | null {
   try {
     const u = new URL(catboxUrl)
@@ -123,7 +109,6 @@ export function catboxFileNameFromUrl(catboxUrl: string): string | null {
   }
 }
 
-/** Album id from API response body (plain text, usually contains https://catbox.moe/c/XXXXXX). */
 export function parseAlbumShortFromResponse(body: string): string | null {
   const m = body.match(/catbox\.moe\/c\/([a-z0-9]{6})\b/i)
   if (m) return m[1].toLowerCase()
@@ -259,12 +244,11 @@ export async function uploadAuthenticatedWithShorten(
   try {
     shortUrl = await shortenUrlVgd(catboxUrl)
   } catch {
-    // keep direct URL
+    void 0
   }
   return { catboxUrl, shortUrl, fileName }
 }
 
-/** Pasted URLs: shorten only; not added to your Catbox album. */
 export async function normalizePastedImageUrl(raw: string): Promise<{ catboxUrl: string; shortUrl: string }> {
   const u = raw.trim()
   if (!/^https?:\/\//i.test(u)) {

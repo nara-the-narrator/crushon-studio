@@ -1,5 +1,6 @@
 import type { ColorPalette } from '../types/character'
 
+/** Hex inputs for introduction preview + export CSS variables. */
 const LABELS: { key: keyof ColorPalette; label: string }[] = [
   { key: 'primary', label: 'Primary' },
   { key: 'secondary', label: 'Secondary' },
@@ -20,7 +21,7 @@ export function PaletteEditor({
   return (
     <div className="palette-editor">
       <h3 className="panel-title">Color palette</h3>
-      <p className="panel-hint">These drive the exported CSS variables and live preview.</p>
+      <p className="panel-hint">These colors drive the live preview and the exported page.</p>
       <div className="palette-grid">
         {LABELS.map(({ key, label }) => (
           <label key={key} className="palette-field">

@@ -1,6 +1,5 @@
 import type { Character } from '../types/character'
 
-/** Drop GIF frame pixel data so JSON fits in localStorage; keeps timings & settings. */
 export function stripGifFramePixels(character: Character): Character {
   return {
     ...character,

@@ -34,7 +34,7 @@ function forwardMultipart(
           'Content-Type': contentType,
           'User-Agent':
             req.headers['user-agent'] ??
-            'Mozilla/5.0 (compatible; NaraNarrator/1.0)',
+            'Mozilla/5.0 (compatible; CrushonStudio/1.0)',
           Accept: '*/*',
         },
         body,

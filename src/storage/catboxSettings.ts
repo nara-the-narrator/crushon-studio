@@ -13,6 +13,6 @@ export function setStoredCatboxUserhash(userhash: string): void {
     if (userhash.trim()) localStorage.setItem(LS_KEY, userhash.trim())
     else localStorage.removeItem(LS_KEY)
   } catch {
-    // ignore
+    void 0 // ignore localStorage write errors
   }
 }

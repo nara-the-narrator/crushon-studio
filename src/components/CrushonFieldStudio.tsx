@@ -1,6 +1,7 @@
 import type { Character, CrushonCardFields } from '../types/character'
 import { GreetingChatPreview } from './GreetingChatPreview'
 
+/** Per-field layout: labels, optional Crushon-facing name, rows, short hint for the textarea. */
 const FIELD_META: Record<
   keyof CrushonCardFields,
   { label: string; crushonLabel: string; hint: string; rows: number }
@@ -8,7 +9,7 @@ const FIELD_META: Record<
   personality: {
     label: 'Personality',
     crushonLabel: 'Personality',
-    hint: 'Detailed traits and voice — Crushon long-term memory. Tavern JSON stores this under the key description (not personality).',
+    hint: 'Traits, voice, and how the character thinks and speaks.',
     rows: 10,
   },
   scenario: {
@@ -20,7 +21,7 @@ const FIELD_META: Record<
   greeting: {
     label: 'Greeting',
     crushonLabel: 'Greeting (first message)',
-    hint: 'The first line the character sends. Short-term memory on Crushon; use {{char}} and {{user}} if you like.',
+    hint: 'First line from the character. You can use {{char}} and {{user}}.',
     rows: 6,
   },
   appearance: {
@@ -60,19 +61,13 @@ export function CrushonFieldStudio({
         <p className="panel-hint crushon-card-lead">
           {isGreeting ? (
             <>
-              Optional <strong>Markdown</strong> — preview shows as an incoming chat message. Maps to Crushon’s{' '}
-              <strong>{meta.crushonLabel}</strong> and Tavern JSON <code className="inline-code">first_mes</code>.
-              This content is <strong>not</strong> mixed into Introduction studio.
+              Optional <strong>Markdown</strong>. The preview shows how the first message can look. This tab is{' '}
+              <strong>separate</strong> from Introduction studio.
             </>
           ) : (
             <>
-              Maps to Crushon’s <strong>{meta.crushonLabel}</strong> field and to Tavern JSON{' '}
-              {field === 'personality' ? (
-                <code className="inline-code">description</code>
-              ) : (
-                <code className="inline-code">{field}</code>
-              )}
-              . This content is <strong>not</strong> mixed into Introduction studio.
+              This tab is <strong>separate</strong> from Introduction studio—card fields here are not mixed into the
+              introduction editor.
             </>
           )}
         </p>
@@ -90,7 +85,7 @@ export function CrushonFieldStudio({
             spellCheck={true}
             value={cc[field]}
             onChange={(e) => patchCard({ [field]: e.target.value })}
-            aria-label={`${meta.label} for Crushon ${meta.crushonLabel}`}
+            aria-label={`${meta.label} (${meta.crushonLabel})`}
           />
         </div>
       </div>

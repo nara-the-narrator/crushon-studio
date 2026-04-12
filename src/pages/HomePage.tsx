@@ -52,12 +52,11 @@ export function HomePage() {
   return (
     <div className="page home-page">
       <header className="home-hero">
-        <p className="brand-kicker">Nara the Narrator</p>
+        <p className="brand-kicker">Crushon Studio</p>
         <h1 className="home-title">Your characters</h1>
         <p className="home-sub">
-          Introduction studio, Crushon fields (personality, scenario, greeting, appearance), palette, and assets in
-          one place—Crushon-ready
-          when you export. Data stays in your browser.
+          Introductions, card fields, palette, GIFs, and image library in one place—ready when you export. Data stays
+          in your browser.
         </p>
         <div className="home-actions">
           <button type="button" className="btn btn-primary" onClick={onNew}>

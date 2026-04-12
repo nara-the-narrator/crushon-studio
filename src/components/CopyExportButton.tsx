@@ -12,7 +12,7 @@ export function CopyExportButton({ character }: { character: Character }) {
       await navigator.clipboard.writeText(html)
       trigger()
     } catch {
-      /* ignore */
+      void 0
     }
   }, [character, trigger])
 
@@ -23,7 +23,7 @@ export function CopyExportButton({ character }: { character: Character }) {
       onClick={copy}
       aria-live="polite"
     >
-      {active ? 'Copied to clipboard' : 'Copy HTML (inline, Crushon-safe)'}
+      {active ? 'Copied to clipboard' : 'Copy HTML (for Crushon)'}
     </button>
   )
 }

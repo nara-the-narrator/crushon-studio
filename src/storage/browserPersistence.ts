@@ -1,4 +1,3 @@
-/** Ask the browser not to evict IndexedDB under storage pressure (best-effort). */
 export async function requestPersistentStorage(): Promise<boolean> {
   if (typeof navigator === 'undefined' || !navigator.storage?.persist) return false
   try {

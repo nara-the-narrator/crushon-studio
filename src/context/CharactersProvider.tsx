@@ -129,7 +129,7 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `nara-backup-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `crushon-studio-backup-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
   }, [characters])

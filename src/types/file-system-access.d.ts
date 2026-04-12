@@ -1,5 +1,3 @@
-/** Minimal typings for File System Access API (Chromium). */
-
 interface FileSystemWritableFileStream extends WritableStream {
   write(data: BufferSource | Blob | string): Promise<void>
   close(): Promise<void>

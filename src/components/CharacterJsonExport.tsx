@@ -4,43 +4,43 @@ import { useButtonFlash } from '../hooks/useButtonFlash'
 import { stringifyCrushonTavernImport, stringifyUniversalExport } from '../utils/universalExport'
 
 export function CharacterJsonExport({ character }: { character: Character }) {
-  const naraCopy = useButtonFlash(2200)
-  const naraDl = useButtonFlash(2200)
+  const bundleCopy = useButtonFlash(2200)
+  const bundleDl = useButtonFlash(2200)
   const crushCopy = useButtonFlash(2200)
   const crushDl = useButtonFlash(2200)
 
-  const buildNaraJson = useCallback(() => stringifyUniversalExport(character, true), [character])
+  const buildBundleJson = useCallback(() => stringifyUniversalExport(character, true), [character])
 
   const buildCrushonJson = useCallback(() => stringifyCrushonTavernImport(character, true), [character])
 
-  const copyNara = useCallback(async () => {
+  const copyBundle = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(buildNaraJson())
-      naraCopy.trigger()
+      await navigator.clipboard.writeText(buildBundleJson())
+      bundleCopy.trigger()
     } catch {
-      /* ignore */
+      void 0
     }
-  }, [buildNaraJson, naraCopy])
+  }, [buildBundleJson, bundleCopy])
 
-  const downloadNara = useCallback(() => {
-    const json = buildNaraJson()
+  const downloadBundle = useCallback(() => {
+    const json = buildBundleJson()
     const safe = character.name.replace(/[^\w-]+/g, '_').slice(0, 80) || 'character'
     const blob = new Blob([json], { type: 'application/json;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${safe}-nara-character.json`
+    a.download = `${safe}-crushon-studio-character.json`
     a.click()
     URL.revokeObjectURL(url)
-    naraDl.trigger()
-  }, [buildNaraJson, character.name, naraDl])
+    bundleDl.trigger()
+  }, [buildBundleJson, character.name, bundleDl])
 
   const copyCrushon = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(buildCrushonJson())
       crushCopy.trigger()
     } catch {
-      /* ignore */
+      void 0
     }
   }, [buildCrushonJson, crushCopy])
 
@@ -62,50 +62,38 @@ export function CharacterJsonExport({ character }: { character: Character }) {
       <div className="json-export-head">
         <h3 className="panel-title">JSON export</h3>
         <p className="panel-hint">
-          <strong>Crushon.ai</strong> imports a <em>flat</em> Tavern-style JSON. Here,{' '}
-          Tavern-style JSON uses <strong>different names</strong> than Crushon: the{' '}
-          <code className="inline-code">personality</code> key holds <strong>Introduction studio</strong> (inline HTML,
-          same as Copy HTML). The <code className="inline-code">description</code> key holds the{' '}
-          <strong>Personality</strong> tab (long-form). Other keys match: <code className="inline-code">scenario</code>,{' '}
-          <code className="inline-code">first_mes</code>, <code className="inline-code">appearance</code>. Empty tabs get
-          placeholders so imports don’t shift fields. Use the
-          Crushon row below on <strong>Create Character → Character Photo &amp; File</strong>. The Nara row is the
-          full snapshot under <code className="inline-code">extensions.nara</code>.
+          Use the full backup to reopen a character in this app. Use the Crushon/SillyTavern file to import on Crushon
+          (Create Character → Character Photo &amp; File) or in compatible apps.
         </p>
       </div>
 
       <div className="json-export-grid">
         <div className="json-export-block">
-          <h4 className="json-export-block-title">Nara (full round-trip)</h4>
-          <p className="panel-hint json-export-block-hint">
-            Universal bundle + <code className="inline-code">extensions.nara</code> for this app only.
-          </p>
+          <h4 className="json-export-block-title">Crushon Studio (full round-trip)</h4>
+          <p className="panel-hint json-export-block-hint">Everything needed to restore this character here later.</p>
           <div className="json-export-actions">
             <button
               type="button"
-              className={`btn btn-secondary ${naraCopy.successClass}`}
-              onClick={copyNara}
+              className={`btn btn-secondary ${bundleCopy.successClass}`}
+              onClick={copyBundle}
               aria-live="polite"
             >
-              {naraCopy.active ? 'Copied!' : 'Copy'}
+              {bundleCopy.active ? 'Copied!' : 'Copy'}
             </button>
             <button
               type="button"
-              className={`btn btn-primary ${naraDl.successClass}`}
-              onClick={downloadNara}
+              className={`btn btn-primary ${bundleDl.successClass}`}
+              onClick={downloadBundle}
               aria-live="polite"
             >
-              {naraDl.active ? 'Download started' : 'Download .json'}
+              {bundleDl.active ? 'Download started' : 'Download .json'}
             </button>
           </div>
         </div>
 
         <div className="json-export-block json-export-block-crushon">
           <h4 className="json-export-block-title">Crushon.ai / SillyTavern</h4>
-          <p className="panel-hint json-export-block-hint">
-            Crushon import: Intro → JSON <code className="inline-code">personality</code>; long Personality → JSON{' '}
-            <code className="inline-code">description</code>.
-          </p>
+          <p className="panel-hint json-export-block-hint">For importing on Crushon or SillyTavern.</p>
           <div className="json-export-actions">
             <button
               type="button"

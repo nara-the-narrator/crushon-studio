@@ -9,9 +9,10 @@ import {
 } from './workspaceFile'
 
 const IDB_KEY = 'characters_v1'
-/** Legacy — migrated once into IndexedDB */
+/** Pre-IndexedDB localStorage key; migrated once then removed. */
 const LEGACY_LS_KEY = 'nara-narrator-characters-v1'
 
+/** Fills optional fields missing from older persisted data. */
 export function normalizeCharacter(c: Character): Character {
   return {
     ...c,
@@ -44,7 +45,7 @@ export async function loadInitialCharacters(): Promise<Character[]> {
       }
     }
   } catch {
-    // ignore migration errors
+    void 0 // ignore legacy migration parse errors
   }
 
   return []
@@ -54,6 +55,7 @@ export async function persistCharacters(list: Character[]): Promise<void> {
   try {
     await idbSet(IDB_KEY, list)
   } catch {
+    // quota: drop embedded GIF frame pixels and retry
     try {
       await idbSet(IDB_KEY, stripAllGifFramePixels(list))
     } catch (e) {
@@ -62,7 +64,6 @@ export async function persistCharacters(list: Character[]): Promise<void> {
   }
 }
 
-/** Mirror to a linked file on disk (Chromium), if any. */
 export async function syncLinkedWorkspaceFile(list: Character[]): Promise<void> {
   const handle = await getStoredWorkspaceHandle()
   if (!handle) return

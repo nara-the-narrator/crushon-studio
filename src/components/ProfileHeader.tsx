@@ -46,7 +46,7 @@ export function ProfileHeader({
             try {
               await removeCatboxFilesFromAlbum(userhash, prevAlbum, [prevFile])
             } catch {
-              // Old file may already be gone; continue
+              void 0 // old file may already be gone
             }
           }
           onChange({
@@ -149,7 +149,7 @@ export function ProfileHeader({
         )}
         {err && <p className="gif-error profile-avatar-error">{err}</p>}
         {!userhash && (
-          <p className="panel-hint profile-avatar-error">Set Catbox userhash in the footer to upload.</p>
+          <p className="panel-hint profile-avatar-error">Set your Catbox userhash in the footer to upload.</p>
         )}
       </div>
       <div className="profile-fields">

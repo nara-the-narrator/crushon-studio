@@ -10,7 +10,7 @@ function Shell({ children }: { children: React.ReactNode }) {
         <NavLink to="/" className="app-brand" end>
           <span className="app-brand-mark" aria-hidden />
           <span className="app-brand-text">
-            <span className="app-brand-name">Nara the Narrator</span>
+            <span className="app-brand-name">Crushon Studio</span>
             <span className="app-brand-tag">Character studio</span>
           </span>
         </NavLink>

@@ -1,6 +1,5 @@
 import type { Character, IntroductionStudioContent } from '../types/character'
 
-/** Hex #rgb or #rrggbb → rgba() for borders/overlays (no &lt;style&gt; tag). */
 function hexToRgba(hex: string, alpha: number): string {
   const raw = hex.replace('#', '').trim()
   if (raw.length !== 3 && raw.length !== 6) return `rgba(0,0,0,${alpha})`
@@ -13,10 +12,6 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`
 }
 
-/**
- * Crushon-safe fragment: only common allowed tags (div, p, span, img, …) with inline styles.
- * No &lt;style&gt;, &lt;link&gt;, &lt;main&gt;, &lt;section&gt;, &lt;h1&gt;–&lt;h6&gt;, or class-based layout.
- */
 export function buildIntroductionStudioFragment(feature: IntroductionStudioContent): string {
   const p = feature.palette
 
@@ -78,7 +73,6 @@ ${sectionsHtml}
 </div>`
 }
 
-/** Minimal document so the in-app iframe can render the fragment (preview only; not for Crushon paste). */
 export function buildPreviewSrcDoc(fragmentHtml: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -93,7 +87,6 @@ ${fragmentHtml}
 </html>`
 }
 
-/** Single-file copy: Crushon-safe HTML fragment (allowed tags + inline CSS only). */
 export function buildExportBundle(character: Character): string {
   return buildIntroductionStudioFragment(character.description)
 }

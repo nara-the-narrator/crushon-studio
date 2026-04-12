@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react'
 
-/** Brief “success” styling on buttons after copy / download / save (see `.btn--success` in CSS). */
 export function useButtonFlash(durationMs = 2200) {
   const [active, setActive] = useState(false)
 

@@ -9,7 +9,6 @@ function linesBlock(urls: string[]): string {
   return urls.join('\n')
 }
 
-/** Crushon-style clothes tracker + image lists (uses {{char}} placeholder). */
 export function buildClothesTrackerPrompt(lib: ImageLibraryState): string {
   const clothed = linesBlock(urlsForState(lib, 'Clothed'))
   const underwear = linesBlock(urlsForState(lib, 'Underwear'))
@@ -37,12 +36,10 @@ ${naked}
 }`
 }
 
-/** Escape single quotes inside action labels for the ''label'' pattern. */
 function qLabel(label: string): string {
   return label.replace(/'/g, "\\'")
 }
 
-/** Action tracker + per-trigger image markdown (uses {{char}} placeholder). */
 export function buildActionTrackerPrompt(lib: ImageLibraryState): string {
   if (!lib.actions.length) {
     return `[System: Add action images with labels in Image library to generate this block.]`

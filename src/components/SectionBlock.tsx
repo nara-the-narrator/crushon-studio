@@ -25,6 +25,7 @@ export function SectionBlock({
   const taRef = useRef<HTMLTextAreaElement>(null)
   const [basic, setBasic] = useState(() => htmlToBasicInput(section.html))
 
+  // Sync when parent replaces section HTML (e.g. from another tab).
   useEffect(() => {
     setBasic(htmlToBasicInput(section.html))
   }, [section.html])
