@@ -1,4 +1,5 @@
 import type { Character, CrushonCardFields } from '../types/character'
+import { GreetingChatPreview } from './GreetingChatPreview'
 
 const FIELD_META: Record<
   keyof CrushonCardFields,
@@ -41,6 +42,7 @@ export function CrushonFieldStudio({
 }) {
   const cc = character.crushonCard
   const meta = FIELD_META[field]
+  const isGreeting = field === 'greeting'
 
   function patchCard(patch: Partial<typeof cc>) {
     onUpdate({
@@ -50,19 +52,29 @@ export function CrushonFieldStudio({
   }
 
   return (
-    <div className="studio-layout crushon-card-studio">
+    <div
+      className={`studio-layout crushon-card-studio ${isGreeting ? 'crushon-card-studio--split' : ''}`}
+    >
       <div className="studio-editor crushon-card-editor">
         <h3 className="panel-title crushon-field-page-title">{meta.label}</h3>
         <p className="panel-hint crushon-card-lead">
-          Maps to Crushon’s <strong>{meta.crushonLabel}</strong> field and to Tavern JSON{' '}
-          {field === 'greeting' ? (
-            <code className="inline-code">first_mes</code>
-          ) : field === 'personality' ? (
-            <code className="inline-code">description</code>
+          {isGreeting ? (
+            <>
+              Optional <strong>Markdown</strong> — preview shows as an incoming chat message. Maps to Crushon’s{' '}
+              <strong>{meta.crushonLabel}</strong> and Tavern JSON <code className="inline-code">first_mes</code>.
+              This content is <strong>not</strong> mixed into Introduction studio.
+            </>
           ) : (
-            <code className="inline-code">{field}</code>
+            <>
+              Maps to Crushon’s <strong>{meta.crushonLabel}</strong> field and to Tavern JSON{' '}
+              {field === 'personality' ? (
+                <code className="inline-code">description</code>
+              ) : (
+                <code className="inline-code">{field}</code>
+              )}
+              . This content is <strong>not</strong> mixed into Introduction studio.
+            </>
           )}
-          . This content is <strong>not</strong> mixed into Introduction studio.
         </p>
 
         <div className="crushon-field-block">
@@ -82,6 +94,8 @@ export function CrushonFieldStudio({
           />
         </div>
       </div>
+
+      {isGreeting && <GreetingChatPreview text={cc.greeting} character={character} />}
     </div>
   )
 }

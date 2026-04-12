@@ -1109,12 +1109,26 @@
   margin: 0 0 0.35rem;
 }
 
-/* Crushon field tabs — single column (no live preview pane) */
+/* Crushon field tabs — full width; Greeting tab adds split + chat preview */
 .crushon-card-studio.studio-layout {
   grid-template-columns: minmax(0, 1fr);
 }
 
+.crushon-card-studio--split.studio-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+}
+
+@media (max-width: 1024px) {
+  .crushon-card-studio--split.studio-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .crushon-card-studio .studio-editor {
+  max-width: none;
+}
+
+.crushon-card-studio--split .studio-editor {
   max-width: 42rem;
 }
 
@@ -1156,6 +1170,170 @@
   min-height: 4rem;
   resize: vertical;
   box-sizing: border-box;
+}
+
+/* Greeting tab — incoming chat message preview */
+.greeting-chat-preview {
+  position: sticky;
+  top: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 280px;
+}
+
+.greeting-chat-preview-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--app-muted);
+}
+
+.greeting-chat-window {
+  flex: 1;
+  min-height: 280px;
+  max-height: min(70vh, 560px);
+  overflow: auto;
+  border: 1px solid var(--app-line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(12, 10, 18, 0.85) 100%);
+  box-shadow: var(--shadow);
+  padding: 1.1rem 1rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.greeting-chat-bubble-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.65rem;
+  max-width: 100%;
+}
+
+.greeting-chat-avatar {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--app-accent) 35%, transparent), rgba(0, 0, 0, 0.4));
+  border: 1px solid color-mix(in srgb, var(--app-accent) 40%, transparent);
+}
+
+.greeting-chat-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.greeting-chat-avatar-fallback {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.greeting-chat-bubble-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.greeting-chat-sender {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--app-muted);
+  padding-left: 0.15rem;
+}
+
+.greeting-chat-bubble {
+  max-width: 100%;
+  padding: 0.65rem 0.9rem 0.75rem;
+  border-radius: 4px 16px 16px 16px;
+  background: #1a1628;
+  border: 1px solid color-mix(in srgb, var(--app-accent) 22%, var(--app-line));
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.greeting-chat-empty {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--app-muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.greeting-chat-body {
+  font-size: 0.92rem;
+  line-height: 1.58;
+  color: var(--app-text);
+  word-wrap: break-word;
+}
+
+.greeting-chat-body :first-child {
+  margin-top: 0;
+}
+
+.greeting-chat-body :last-child {
+  margin-bottom: 0;
+}
+
+.greeting-chat-body p {
+  margin: 0 0 0.65rem;
+}
+
+.greeting-chat-body p:last-child {
+  margin-bottom: 0;
+}
+
+.greeting-chat-body strong {
+  font-weight: 600;
+  color: color-mix(in srgb, var(--app-text) 95%, var(--app-accent));
+}
+
+.greeting-chat-body em {
+  font-style: italic;
+  color: var(--app-muted);
+}
+
+.greeting-chat-body code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.88em;
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--app-line);
+}
+
+.greeting-chat-body pre {
+  margin: 0.5rem 0 0;
+  padding: 0.55rem 0.65rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 0.82rem;
+}
+
+.greeting-chat-body pre code {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.greeting-chat-body ul,
+.greeting-chat-body ol {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.2rem;
+}
+
+.greeting-chat-body a {
+  color: var(--app-accent);
 }
 
 .inline-code {
