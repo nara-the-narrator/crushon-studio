@@ -87,6 +87,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
     character: {
       id: character.id,
       name: character.name,
+      age: character.age,
       tags: character.tags,
       avatar: character.avatarHosted
         ? {
@@ -129,6 +130,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
       compat: {
         generic: {
           name: character.name,
+          age: character.age,
           description: introductionHtml,
           personality: personalityPlain,
           scenario: scenarioPlain,
@@ -140,6 +142,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         },
         crushon_ai: {
           char_name: character.name,
+          age: character.age,
           char_introduction: introductionHtml,
           char_persona: personalityPlain,
           world_scenario: scenarioPlain,
@@ -151,6 +154,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         },
         sillytavern: {
           name: character.name,
+          age: character.age,
           description: tavernDescriptionField,
           personality: tavernPersonalityField,
           scenario: scenarioPlain,
@@ -160,6 +164,7 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         },
         chub_ai: {
           title: character.name,
+          age: character.age,
           description: tavernDescriptionField,
           personality: tavernPersonalityField,
           scenario: scenarioPlain,
@@ -205,6 +210,7 @@ export function buildCrushonTavernImportJson(character: Character): Record<strin
 
   const card: Record<string, unknown> = {
     name: character.name.trim().slice(0, 40) || 'Unnamed',
+    age: character.age,
     description: tavernDescription,
     personality: tavernPersonality,
     scenario: scenarioOut,

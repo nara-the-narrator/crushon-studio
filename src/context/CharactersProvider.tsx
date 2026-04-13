@@ -77,6 +77,7 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
     const c: Character = {
       id: newId(),
       name: 'Unnamed character',
+      age: '',
       avatarDataUrl: null,
       avatarHosted: null,
       catboxAlbumShort: null,

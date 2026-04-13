@@ -1553,6 +1553,7 @@
 .greeting-chat-body {
   font-size: 0.92rem;
   line-height: 1.58;
+  font-weight: 200;
   color: var(--app-text);
   word-wrap: break-word;
 }
@@ -1571,6 +1572,12 @@
 
 .greeting-chat-body p:last-child {
   margin-bottom: 0;
+}
+
+.greeting-chat-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .greeting-chat-body strong {

@@ -163,6 +163,17 @@ export function ProfileHeader({
             autoComplete="off"
           />
         </label>
+        <label className="field">
+          <span className="field-label">Age</span>
+          <input
+            className="field-input"
+            value={character.age}
+            onChange={(e) => onChange({ ...character, age: e.target.value })}
+            placeholder="Age"
+            inputMode="numeric"
+            autoComplete="off"
+          />
+        </label>
         <div className="tags-block">
           <span className="field-label">Tags</span>
           <div className="tag-chips">

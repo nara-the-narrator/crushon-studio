@@ -12,6 +12,7 @@ export function TemplatePage() {
     () => ({
       id: 'new-character-template',
       name: 'New character template',
+      age: '',
       avatarDataUrl: null,
       avatarHosted: null,
       catboxAlbumShort: null,

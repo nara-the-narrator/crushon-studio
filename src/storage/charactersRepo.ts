@@ -30,6 +30,7 @@ export function normalizeCharacter(c: Character): Character {
 
   return {
     ...c,
+    age: c.age ?? '',
     avatarHosted: c.avatarHosted ?? null,
     catboxAlbumShort: c.catboxAlbumShort ?? null,
     gifHosted: c.gifHosted ?? null,

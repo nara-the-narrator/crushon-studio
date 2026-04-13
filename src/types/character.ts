@@ -98,6 +98,7 @@ export interface GifConstructorState {
 export interface Character {
   id: string
   name: string
+  age: string
   avatarDataUrl: string | null
   avatarHosted: HostedAsset | null
   catboxAlbumShort: string | null
