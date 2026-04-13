@@ -25,3 +25,14 @@ export function createEmptyIntroductionStudio(): IntroductionStudioContent {
     palette,
   }
 }
+
+export function cloneIntroductionTemplate(template: IntroductionStudioContent): IntroductionStudioContent {
+  return {
+    openingHtml: template.openingHtml,
+    palette: { ...template.palette },
+    sections: template.sections.map((section) => ({
+      ...section,
+      id: newId(),
+    })),
+  }
+}

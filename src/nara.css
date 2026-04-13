@@ -439,6 +439,10 @@
   box-shadow: var(--shadow);
 }
 
+.template-page-head {
+  margin-bottom: 1.5rem;
+}
+
 .search-row {
   display: flex;
   gap: 0.75rem;

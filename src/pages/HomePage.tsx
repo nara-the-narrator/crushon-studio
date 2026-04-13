@@ -62,6 +62,9 @@ export function HomePage() {
           <button type="button" className="btn btn-primary" onClick={onNew}>
             New character
           </button>
+          <button type="button" className="btn btn-secondary" onClick={() => navigate('/template')}>
+            Edit template
+          </button>
         </div>
       </header>
 

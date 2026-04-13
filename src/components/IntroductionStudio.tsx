@@ -17,9 +17,13 @@ import { SectionBlock } from './SectionBlock'
 export function IntroductionStudio({
   character,
   onUpdate,
+  title = 'Introduction studio',
+  showExportControls = true,
 }: {
   character: Character
   onUpdate: (c: Character) => void
+  title?: string
+  showExportControls?: boolean
 }) {
   const openingRef = useRef<HTMLTextAreaElement>(null)
   const resetFlash = useButtonFlash(2000)
@@ -119,9 +123,9 @@ export function IntroductionStudio({
   return (
     <div className="studio-layout">
       <div className="studio-editor">
-        <h3 className="panel-title introduction-studio-heading">Introduction studio</h3>
+        <h3 className="panel-title introduction-studio-heading">{title}</h3>
         <div className="studio-toolbar">
-          <CopyExportButton character={previewCharacter} />
+          {showExportControls && <CopyExportButton character={previewCharacter} />}
           <button
             type="button"
             className={`btn btn-secondary ${resetFlash.successClass}`}

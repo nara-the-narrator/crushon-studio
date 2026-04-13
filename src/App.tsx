@@ -7,6 +7,7 @@ import { useCharacters } from './hooks/useCharacters'
 import { CharacterPage } from './pages/CharacterPage'
 import { HomePage } from './pages/HomePage'
 import { SettingsPage } from './pages/SettingsPage'
+import { TemplatePage } from './pages/TemplatePage'
 
 function Shell({ children }: { children: React.ReactNode }) {
   const location = useLocation()
@@ -83,6 +84,7 @@ export default function App() {
     <Shell>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/template" element={<TemplatePage />} />
         <Route path="/character/:id" element={<CharacterPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Routes>

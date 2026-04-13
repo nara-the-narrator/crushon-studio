@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { createEmptyIntroductionStudio } from '../constants/defaults'
+import { cloneIntroductionTemplate, createEmptyIntroductionStudio } from '../constants/defaults'
 import { isStoragePersisted } from '../storage/browserPersistence'
 import {
   loadInitialCharacters,
+  loadIntroductionTemplate,
   normalizeCharacter,
   persistCharacters,
+  persistIntroductionTemplate,
   syncLinkedWorkspaceFile,
 } from '../storage/charactersRepo'
 import {
@@ -17,6 +19,7 @@ import {
   writeCharactersJson,
 } from '../storage/workspaceFile'
 import type { Character } from '../types/character'
+import type { IntroductionStudioContent } from '../types/character'
 import { defaultCrushonCardFields, defaultGifConstructor, defaultImageLibrary } from '../types/character'
 import { newId } from '../utils/id'
 import { CharactersContext } from './charactersContext'
@@ -26,17 +29,24 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
   const [storageReady, setStorageReady] = useState(false)
   const [storagePersisted, setStoragePersisted] = useState<boolean | null>(null)
   const [linkedFileName, setLinkedFileName] = useState<string | null>(null)
+  const [introductionTemplate, setIntroductionTemplateState] = useState<IntroductionStudioContent>(
+    createEmptyIntroductionStudio(),
+  )
 
   useEffect(() => {
     let cancelled = false
     void (async () => {
-      const list = await loadInitialCharacters()
-      const persisted = await isStoragePersisted()
-      const handle = await getStoredWorkspaceHandle()
+      const [list, persisted, handle, template] = await Promise.all([
+        loadInitialCharacters(),
+        isStoragePersisted(),
+        getStoredWorkspaceHandle(),
+        loadIntroductionTemplate(),
+      ])
       if (cancelled) return
       setCharacters(list)
       setStoragePersisted(persisted)
       setLinkedFileName(handle?.name ?? null)
+      setIntroductionTemplateState(template)
       setStorageReady(true)
     })()
     return () => {
@@ -51,6 +61,11 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
       await syncLinkedWorkspaceFile(characters)
     })()
   }, [characters, storageReady])
+
+  useEffect(() => {
+    if (!storageReady) return
+    void persistIntroductionTemplate(introductionTemplate)
+  }, [introductionTemplate, storageReady])
 
   const getById = useCallback(
     (id: string) => characters.find((c) => c.id === id),
@@ -68,7 +83,7 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
       tags: ['work in progress'],
       createdAt: now,
       updatedAt: now,
-      description: createEmptyIntroductionStudio(),
+      description: cloneIntroductionTemplate(introductionTemplate),
       crushonCard: defaultCrushonCardFields(),
       gifConstructor: defaultGifConstructor(),
       gifHosted: null,
@@ -76,6 +91,10 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
     }
     setCharacters((prev) => [c, ...prev])
     return c
+  }, [introductionTemplate])
+
+  const setIntroductionTemplate = useCallback((template: IntroductionStudioContent) => {
+    setIntroductionTemplateState(template)
   }, [])
 
   const upsertCharacter = useCallback((c: Character) => {
@@ -153,8 +172,10 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
       storageReady,
       storagePersisted,
       linkedFileName,
+      introductionTemplate,
       getById,
       createCharacter,
+      setIntroductionTemplate,
       upsertCharacter,
       deleteCharacter,
       replaceAllCharacters,
@@ -168,8 +189,10 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
       storageReady,
       storagePersisted,
       linkedFileName,
+      introductionTemplate,
       getById,
       createCharacter,
+      setIntroductionTemplate,
       upsertCharacter,
       deleteCharacter,
       replaceAllCharacters,
