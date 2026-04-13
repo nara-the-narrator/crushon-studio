@@ -17,6 +17,9 @@ export function createEmptyIntroductionStudio(): IntroductionStudioContent {
         html: compileSectionBasicToHtml(
           'Optional blocks for structure—this area is your introduction only. Use the Personality, Scenario, Greeting, and Appearance tabs for those fields.',
         ),
+        opacity: 0.9,
+        showBorder: true,
+        borderColor: palette.muted,
       },
     ],
     palette,

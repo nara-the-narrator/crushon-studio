@@ -14,11 +14,22 @@ const LEGACY_LS_KEY = 'nara-narrator-characters-v1'
 
 /** Fills optional fields missing from older persisted data. */
 export function normalizeCharacter(c: Character): Character {
+  const normalizedDescription = {
+    ...c.description,
+    sections: c.description.sections.map((section) => ({
+      ...section,
+      opacity: section.opacity ?? 0.9,
+      showBorder: section.showBorder ?? true,
+      borderColor: section.borderColor ?? c.description.palette.muted ?? '#8f879e',
+    })),
+  }
+
   return {
     ...c,
     avatarHosted: c.avatarHosted ?? null,
     catboxAlbumShort: c.catboxAlbumShort ?? null,
     gifHosted: c.gifHosted ?? null,
+    description: normalizedDescription,
     gifConstructor: c.gifConstructor ?? defaultGifConstructor(),
     imageLibrary: c.imageLibrary ?? defaultImageLibrary(),
     crushonCard: c.crushonCard ?? defaultCrushonCardFields(),

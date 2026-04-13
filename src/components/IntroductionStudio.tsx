@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useButtonFlash } from '../hooks/useButtonFlash'
 import { createEmptyIntroductionStudio } from '../constants/defaults'
 import type { Character, IntroductionSection } from '../types/character'
@@ -26,24 +26,7 @@ export function IntroductionStudio({
   const addSectionFlash = useButtonFlash(1800)
   const desc = character.description
 
-  const [openingBasic, setOpeningBasic] = useState(() => htmlToBasicInput(desc.openingHtml))
-  const openingBasicRef = useRef(openingBasic)
-  openingBasicRef.current = openingBasic
-  const skipOpeningPaletteSync = useRef(true)
-
-  // Keep basic-text state in sync when opening HTML changes from outside (e.g. reset template).
-  useEffect(() => {
-    setOpeningBasic(htmlToBasicInput(desc.openingHtml))
-  }, [desc.openingHtml])
-
-  // Recompile opening HTML when palette text color changes so preview matches.
-  useEffect(() => {
-    if (skipOpeningPaletteSync.current) {
-      skipOpeningPaletteSync.current = false
-      return
-    }
-    patchDescription({ openingHtml: compileOpeningBasicToHtml(openingBasicRef.current, desc.palette) })
-  }, [desc.palette.text])
+  const openingBasic = htmlToBasicInput(desc.openingHtml)
 
   function patchDescription(patch: Partial<typeof desc>) {
     onUpdate({
@@ -53,7 +36,6 @@ export function IntroductionStudio({
   }
 
   function setOpeningFromBasic(next: string) {
-    setOpeningBasic(next)
     patchDescription({ openingHtml: compileOpeningBasicToHtml(next, desc.palette) })
   }
 
@@ -86,6 +68,9 @@ export function IntroductionStudio({
         id: newId(),
         title: 'New section',
         html: '<p></p>',
+        opacity: 0.9,
+        showBorder: true,
+        borderColor: desc.palette.muted,
       },
     ])
     addSectionFlash.trigger()
@@ -103,7 +88,6 @@ export function IntroductionStudio({
       openingHtml: fresh.openingHtml,
       sections: fresh.sections,
     })
-    setOpeningBasic(htmlToBasicInput(fresh.openingHtml))
     resetFlash.trigger()
   }
 
@@ -148,7 +132,15 @@ export function IntroductionStudio({
           </button>
         </div>
 
-        <PaletteEditor palette={desc.palette} onChange={(p) => patchDescription({ palette: p })} />
+        <PaletteEditor
+          palette={desc.palette}
+          onChange={(p) =>
+            patchDescription({
+              palette: p,
+              openingHtml: compileOpeningBasicToHtml(openingBasic, p),
+            })
+          }
+        />
 
         <div className="opening-block">
           <h3 className="panel-title">Opening</h3>

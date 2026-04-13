@@ -12,6 +12,11 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`
 }
 
+function clamp01(value: number): number {
+  if (!Number.isFinite(value)) return 1
+  return Math.max(0, Math.min(1, value))
+}
+
 export function buildIntroductionStudioFragment(feature: IntroductionStudioContent): string {
   const p = feature.palette
 
@@ -45,8 +50,10 @@ export function buildIntroductionStudioFragment(feature: IntroductionStudioConte
         'padding:1.25rem 1.35rem',
         'border-radius:14px',
         'box-sizing:border-box',
-        `background:${p.surfaceElevated}`,
-        `border:1px solid ${hexToRgba(p.muted, 0.25)}`,
+        `background:${hexToRgba(p.surfaceElevated, clamp01(s.opacity ?? 0.9))}`,
+        s.showBorder ?? true
+          ? `border:1px solid ${hexToRgba(s.borderColor ?? p.muted, 0.5)}`
+          : 'border:none',
       ].join(';')
 
       const titleStyle = [

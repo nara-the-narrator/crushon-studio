@@ -13,6 +13,9 @@ export interface IntroductionSection {
   id: string
   title: string
   html: string
+  opacity: number
+  showBorder: boolean
+  borderColor: string
 }
 
 /** Opening HTML + titled sections + palette (Crushon “Introduction” / Tavern `personality` when exported). */

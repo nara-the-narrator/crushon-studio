@@ -110,6 +110,9 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         sections: desc.sections.map((s) => ({
           title: s.title,
           html: s.html,
+          opacity: s.opacity,
+          show_border: s.showBorder,
+          border_color: s.borderColor,
         })),
         palette: desc.palette,
         full_document_html: introductionHtml,
