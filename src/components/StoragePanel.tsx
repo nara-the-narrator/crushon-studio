@@ -22,9 +22,9 @@ export function StoragePanel() {
 
   const fsOk = isFileSystemAccessSupported()
 
-  const onDownloadBackup = useCallback(() => {
-    downloadBackup()
-    backupFlash.trigger()
+  const onDownloadBackup = useCallback(async () => {
+    const done = await downloadBackup()
+    if (done) backupFlash.trigger()
   }, [downloadBackup, backupFlash])
 
   const onOpenWorkspace = useCallback(async () => {
@@ -62,7 +62,7 @@ export function StoragePanel() {
         <button
           type="button"
           className={`btn btn-secondary btn-small ${backupFlash.successClass}`}
-          onClick={onDownloadBackup}
+          onClick={() => void onDownloadBackup()}
           aria-live="polite"
         >
           {backupFlash.active ? 'Download started' : 'Download backup (.json)'}
@@ -73,7 +73,7 @@ export function StoragePanel() {
           onClick={() => void onOpenWorkspace()}
           aria-live="polite"
         >
-          {replaceFlash.active ? 'Done' : 'Replace from file…'}
+          {replaceFlash.active ? 'Done' : 'Load file…'}
         </button>
         {fsOk ? (
           <>

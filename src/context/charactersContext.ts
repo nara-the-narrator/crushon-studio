@@ -14,7 +14,7 @@ export interface CharactersContextValue {
   linkWorkspaceFile: () => Promise<boolean>
   unlinkWorkspaceFile: () => Promise<void>
   openWorkspaceFile: () => Promise<boolean>
-  downloadBackup: () => void
+  downloadBackup: () => Promise<boolean>
 }
 
 export const CharactersContext = createContext<CharactersContextValue | null>(null)

@@ -36,6 +36,169 @@
   background: color-mix(in srgb, var(--app-bg) 82%, transparent);
 }
 
+.app-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.app-settings-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: var(--app-text);
+  border: 1px solid var(--app-line);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+}
+
+.app-settings-link:hover {
+  border-color: color-mix(in srgb, var(--app-accent) 35%, var(--app-line));
+}
+
+.app-settings-link.active {
+  background: var(--app-accent-soft);
+  border-color: color-mix(in srgb, var(--app-accent) 45%, transparent);
+}
+
+.app-settings-anchor-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.app-settings-warning-pop {
+  position: absolute;
+  right: -0.32rem;
+  top: -0.44rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  cursor: help;
+  z-index: 2;
+  animation: settings-warning-pop 3.4s ease-in-out infinite;
+}
+
+.app-settings-warning-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: #ffd34f;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 1px 0 #4a3a10) drop-shadow(0 0 8px rgba(255, 211, 79, 0.25));
+}
+
+.app-settings-warning-tooltip {
+  position: absolute;
+  right: -0.15rem;
+  top: calc(100% + 0.25rem);
+  min-width: 190px;
+  max-width: 260px;
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid var(--app-line);
+  background: rgba(15, 11, 22, 0.96);
+  color: var(--app-text);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.38);
+  opacity: 0;
+  transform: translateY(-2px);
+  pointer-events: none;
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
+}
+
+.app-settings-warning-pop:hover .app-settings-warning-tooltip,
+.app-settings-warning-pop:focus-visible .app-settings-warning-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes settings-warning-pop {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-1px) scale(1.05);
+  }
+  45% {
+    transform: translateY(0) scale(0.98);
+  }
+  60% {
+    transform: translateY(-1px) scale(1.04);
+  }
+}
+
+.app-setup-notice-wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0.8rem auto -0.25rem;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+}
+
+.app-setup-notice {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.65rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, #d06f75 45%, var(--app-line));
+  background: linear-gradient(145deg, rgba(208, 111, 117, 0.12), rgba(20, 16, 28, 0.88));
+}
+
+.app-setup-notice-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #2a1014;
+  background: linear-gradient(135deg, #f0b9bc, #d06f75);
+  border: 1px solid color-mix(in srgb, #d06f75 75%, #000);
+  flex-shrink: 0;
+}
+
+.app-setup-notice-text {
+  margin: 0;
+  color: var(--app-text);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.app-setup-notice-link {
+  margin-left: auto;
+  color: var(--app-accent);
+  text-decoration: none;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.app-setup-notice-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .app-setup-notice {
+    flex-wrap: wrap;
+  }
+
+  .app-setup-notice-link {
+    margin-left: 1.75rem;
+  }
+}
+
 .app-brand {
   display: flex;
   align-items: center;
@@ -232,6 +395,39 @@
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+/* Settings page */
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settings-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.settings-title {
+  margin: 0;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(1.75rem, 3.4vw, 2.4rem);
+  font-weight: 400;
+}
+
+.settings-sub {
+  margin: 0;
+  color: var(--app-muted);
+}
+
+.settings-panel {
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  background: var(--app-card);
+  border: 1px solid var(--app-line);
+  box-shadow: var(--shadow);
 }
 
 .home-controls {

@@ -9,6 +9,7 @@ import {
 } from '../storage/charactersRepo'
 import {
   getStoredWorkspaceHandle,
+  isFileSystemAccessSupported,
   pickFileToOpen,
   pickFileToSave,
   readCharactersJson,
@@ -119,10 +120,21 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
     )
     if (!ok) return false
     replaceAllCharacters(raw)
+    await setStoredWorkspaceHandle(handle)
+    setLinkedFileName(handle.name)
     return true
   }, [replaceAllCharacters])
 
-  const downloadBackup = useCallback(() => {
+  const downloadBackup = useCallback(async (): Promise<boolean> => {
+    const handle = await pickFileToSave()
+    if (handle) {
+      await writeCharactersJson(handle, characters)
+      await setStoredWorkspaceHandle(handle)
+      setLinkedFileName(handle.name)
+      return true
+    }
+    if (isFileSystemAccessSupported()) return false
+
     const blob = new Blob([JSON.stringify(characters, null, 2)], {
       type: 'application/json;charset=utf-8',
     })
@@ -132,6 +144,7 @@ export function CharactersProvider({ children }: { children: ReactNode }) {
     a.download = `crushon-studio-backup-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
+    return true
   }, [characters])
 
   const value = useMemo(
