@@ -10,6 +10,7 @@ export function createEmptyIntroductionStudio(): IntroductionStudioContent {
       'A veil of quiet words—replace this with your hook. The structure stays; the story is yours.',
       palette,
     ),
+    openingContentMode: 'basic',
     sections: [
       {
         id: newId(),
@@ -17,6 +18,7 @@ export function createEmptyIntroductionStudio(): IntroductionStudioContent {
         html: compileSectionBasicToHtml(
           'Optional blocks for structure—this area is your introduction only. Use the Personality, Scenario, Greeting, and Appearance tabs for those fields.',
         ),
+        contentMode: 'basic',
         opacity: 0.9,
         showBorder: true,
         borderColor: palette.muted,
@@ -29,6 +31,7 @@ export function createEmptyIntroductionStudio(): IntroductionStudioContent {
 export function cloneIntroductionTemplate(template: IntroductionStudioContent): IntroductionStudioContent {
   return {
     openingHtml: template.openingHtml,
+    openingContentMode: template.openingContentMode ?? 'basic',
     palette: { ...template.palette },
     sections: template.sections.map((section) => ({
       ...section,

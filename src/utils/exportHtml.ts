@@ -1,4 +1,5 @@
 import type { Character, IntroductionStudioContent } from '../types/character'
+import { sanitizeLimitedHtml } from './sanitizeLimitedHtml'
 
 function hexToRgba(hex: string, alpha: number): string {
   const raw = hex.replace('#', '').trim()
@@ -66,16 +67,19 @@ export function buildIntroductionStudioFragment(feature: IntroductionStudioConte
       ].join(';')
 
       const bodyStyle = 'margin:0'
+      const sectionBodyHtml = sanitizeLimitedHtml(s.html)
 
       return `<div style="${sectionShellStyle}">
   <div style="${titleStyle}">${escapeHtml(s.title)}</div>
-  <div style="${bodyStyle}">${s.html}</div>
+  <div style="${bodyStyle}">${sectionBodyHtml}</div>
 </div>`
     })
     .join('\n')
 
+  const openingInner = sanitizeLimitedHtml(feature.openingHtml)
+
   return `<div style="${rootStyle}">
-<div style="${openingStyle}">${feature.openingHtml}</div>
+<div style="${openingStyle}">${openingInner}</div>
 ${sectionsHtml}
 </div>`
 }
@@ -87,6 +91,22 @@ export function buildPreviewSrcDoc(fragmentHtml: string): string {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Preview</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  img,
+  video,
+  iframe {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+</style>
 </head>
 <body style="margin:0;padding:0;">
 ${fragmentHtml}

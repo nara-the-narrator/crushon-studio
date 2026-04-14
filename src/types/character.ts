@@ -13,6 +13,7 @@ export interface IntroductionSection {
   id: string
   title: string
   html: string
+  contentMode: 'basic' | 'customHtml'
   opacity: number
   showBorder: boolean
   borderColor: string
@@ -21,6 +22,7 @@ export interface IntroductionSection {
 /** Opening HTML + titled sections + palette (Crushon “Introduction” / Tavern `personality` when exported). */
 export interface IntroductionStudioContent {
   openingHtml: string
+  openingContentMode: 'basic' | 'customHtml'
   sections: IntroductionSection[]
   palette: ColorPalette
 }

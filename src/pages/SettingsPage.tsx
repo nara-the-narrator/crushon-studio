@@ -9,7 +9,9 @@ export function SettingsPage() {
           ← Back to characters
         </Link>
         <h1 className="settings-title">Settings</h1>
-        <p className="settings-sub">Manage Catbox uploads, local backup, and linked workspace file options.</p>
+        <p className="settings-sub">
+          Manage Catbox uploads, AI style key, local backup, and linked workspace file options.
+        </p>
       </div>
       <section className="settings-panel">
         <StoragePanel />

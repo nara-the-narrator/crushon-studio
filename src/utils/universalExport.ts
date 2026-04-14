@@ -108,9 +108,11 @@ export function buildUniversalCharacterExport(character: Character): Record<stri
         : null,
       description: {
         opening_html: desc.openingHtml,
+        opening_content_mode: desc.openingContentMode,
         sections: desc.sections.map((s) => ({
           title: s.title,
           html: s.html,
+          content_mode: s.contentMode,
           opacity: s.opacity,
           show_border: s.showBorder,
           border_color: s.borderColor,

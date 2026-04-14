@@ -1,7 +1,7 @@
 import { useCatboxSettings } from '../context/CatboxSettingsContext'
 
 export function CatboxAccountPanel() {
-  const { userhash, setUserhash } = useCatboxSettings()
+  const { userhash, setUserhash, styleApiKey, setStyleApiKey } = useCatboxSettings()
 
   return (
     <div className="catbox-account-panel">
@@ -27,6 +27,21 @@ export function CatboxAccountPanel() {
       </label>
       <p id="catbox-userhash-hint" className="storage-panel-hint catbox-account-hint">
         Copy the userhash from your Catbox account. It is stored only in this browser.
+      </p>
+      <label className="field catbox-userhash-field">
+        <span className="field-label">Style AI API key</span>
+        <input
+          className="field-input"
+          type="password"
+          autoComplete="off"
+          value={styleApiKey}
+          onChange={(e) => setStyleApiKey(e.target.value)}
+          placeholder="OpenAI API key (used for Introduction style prompt)"
+          aria-describedby="style-api-key-hint"
+        />
+      </label>
+      <p id="style-api-key-hint" className="storage-panel-hint catbox-account-hint">
+        Used by built-in Introduction style restyling. Stored only in this browser.
       </p>
     </div>
   )

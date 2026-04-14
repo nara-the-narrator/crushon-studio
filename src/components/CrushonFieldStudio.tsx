@@ -44,6 +44,7 @@ export function CrushonFieldStudio({
   const cc = character.crushonCard
   const meta = FIELD_META[field]
   const isGreeting = field === 'greeting'
+  const isAppearance = field === 'appearance'
 
   function patchCard(patch: Partial<typeof cc>) {
     onUpdate({
@@ -71,6 +72,13 @@ export function CrushonFieldStudio({
             </>
           )}
         </p>
+
+        {isAppearance && (
+          <p className="panel-hint crushon-appearance-import-note" role="note">
+            CrushOn’s JSON import often does not fill Appearance, even though the exported file includes it. After you
+            import on CrushOn, copy the text below and paste it into CrushOn’s Appearance field.
+          </p>
+        )}
 
         <div className="crushon-field-block">
           <label className="crushon-field-label" htmlFor={`crushon-${character.id}-${field}`}>

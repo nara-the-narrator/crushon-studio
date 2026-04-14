@@ -164,7 +164,10 @@ export function ProfileHeader({
           />
         </label>
         <label className="field">
-          <span className="field-label">Age</span>
+          <span className="field-label">
+            Age{' '}
+            <span className="field-label-aside">(CrushOn import often skips—paste into CrushOn)</span>
+          </span>
           <input
             className="field-input"
             value={character.age}

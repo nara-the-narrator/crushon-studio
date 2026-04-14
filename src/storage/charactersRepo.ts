@@ -20,8 +20,10 @@ const LEGACY_LS_KEY = 'nara-narrator-characters-v1'
 export function normalizeCharacter(c: Character): Character {
   const normalizedDescription = {
     ...c.description,
+    openingContentMode: c.description.openingContentMode ?? 'basic',
     sections: c.description.sections.map((section) => ({
       ...section,
+      contentMode: section.contentMode ?? 'basic',
       opacity: section.opacity ?? 0.9,
       showBorder: section.showBorder ?? true,
       borderColor: section.borderColor ?? c.description.palette.muted ?? '#8f879e',
@@ -97,6 +99,7 @@ export function normalizeIntroductionTemplate(
   if (!template) return base
   return {
     openingHtml: template.openingHtml ?? base.openingHtml,
+    openingContentMode: template.openingContentMode ?? 'basic',
     palette: {
       ...base.palette,
       ...(template.palette ?? {}),
@@ -106,6 +109,7 @@ export function normalizeIntroductionTemplate(
         id: section.id ?? newId(),
         title: section.title ?? '',
         html: section.html ?? '<p></p>',
+        contentMode: section.contentMode ?? 'basic',
         opacity: section.opacity ?? 0.9,
         showBorder: section.showBorder ?? true,
         borderColor: section.borderColor ?? template.palette?.muted ?? base.palette.muted,
